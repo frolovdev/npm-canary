@@ -4,8 +4,9 @@ import packageJson from "../package.json";
 /**
  * @example ../../src/react/createComponent.js -> effector-react/createComponent.js
  */
+//
 
-export const getSourcemapPathTransform = (name) =>
+export const getSourcemapPathTransform = name =>
   function sourcemapPathTransform(relativePath) {
     let packagePath = join("../..", packageJson.alias[name]);
     if (extname(packagePath) !== "") {
