@@ -22,6 +22,12 @@
     "bigint-money": "./packages/bigint-money/src/index.ts",
     "bignumber.js": "./packages/bignumber.js/src/index.ts"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
