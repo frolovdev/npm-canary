@@ -2,7 +2,7 @@ const fs = require("fs");
 const {
   default: fetchPackageJson,
   VersionNotFoundError,
-  PackageNotFoundError,
+  PackageNotFoundError
 } = require("package-json");
 
 const path = require("path");
@@ -16,8 +16,8 @@ function getPackages(dir) {
   const paths = [];
   const packages = [];
   files
-    .filter((file) => fs.statSync(`${dir}/${file}`).isDirectory())
-    .forEach((file) => {
+    .filter(file => fs.statSync(`${dir}/${file}`).isDirectory())
+    .forEach(file => {
       const localDir = `${dir}/${file}`;
 
       const package = fs.readdirSync(localDir);
@@ -32,15 +32,13 @@ function getPackages(dir) {
 const { packages, paths } = getPackages(directoryPath);
 
 const regEXP = /package.json/;
-const packageJsons = packages
-  .flatMap((x) => x)
-  .filter((file) => regEXP.test(file));
+const packageJsons = packages.flatMap(x => x).filter(file => regEXP.test(file));
 
 const packagesJsonData = packageJsons.map((file, i) =>
   fs.readFileSync(`${paths[i]}/${file}`, { encoding: "utf8" })
 );
 
-const parsedPackagesJsonData = packagesJsonData.map((data) => JSON.parse(data));
+const parsedPackagesJsonData = packagesJsonData.map(data => JSON.parse(data));
 
 function startReleaseCandidate(data, pathToPck) {
   const newVersion = updateRc(data.version);
@@ -50,7 +48,7 @@ function startReleaseCandidate(data, pathToPck) {
 
     fs.writeFileSync(
       `${pathToPck}/package.json`,
-      JSON.stringify(newPackageJson, null, "\t"),
+      JSON.stringify(newPackageJson, null, 2),
       "utf8"
     );
   } else {
@@ -76,7 +74,7 @@ parsedPackagesJsonData.forEach(async (data, i) => {
   }
 });
 
-process.on("uncaughtException", (err) => {
+process.on("uncaughtException", err => {
   console.error(
     `${new Date().toUTCString()} uncaught exception: ${err.message}`
   );
