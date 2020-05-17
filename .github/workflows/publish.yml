@@ -41,3 +41,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: publish release candidate
         run: yarn publish-flow
+        env:
+          NPM_TOKEN: ${{ secrets.npm_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
