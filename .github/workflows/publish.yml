@@ -25,9 +25,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish packages
         run: node tools/ci/publishScript.js
-        env:
-          PRINT_ERRORS: true
       - name: check
         run: cat packages/packageone/package.json
         env:
           PRINT_ERRORS: true
+      - name: Commit changes
+        run: |
+          git add .
+          git status

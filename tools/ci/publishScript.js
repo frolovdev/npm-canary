@@ -4,8 +4,9 @@ const {
   VersionNotFoundError,
   PackageNotFoundError,
 } = require("package-json");
-const cp = require("child_process");
+
 const path = require("path");
+const { updateRc } = require("./version");
 
 const directoryPath = path.join(__dirname, "../..", "packages");
 
@@ -41,36 +42,45 @@ const packagesJsonData = packageJsons.map((file, i) =>
 
 const parsedPackagesJsonData = packagesJsonData.map((data) => JSON.parse(data));
 
-async function startRelease(name, version, pathToPck) {
-  cp.execFile(
-    "npm",
-    ["version", "prerelease", "--preid=rc"],
-    { cwd: pathToPck, env: process.env },
-    (err, stdout, stderr) => {
-      if (err) {
-        console.log("err", err);
-      } else {
-        console.log("stderr", stderr);
-        console.log("stdout", stdout);
-      }
-    }
-  );
+function startReleaseCandidate(data, pathToPck) {
+  const newVersion = updateRc(data.version);
+
+  if (newVersion) {
+    const newPackageJson = { ...data, version: newVersion };
+
+    fs.writeFileSync(
+      `${pathToPck}/package.json`,
+      JSON.stringify(newPackageJson, null, "\t"),
+      "utf8"
+    );
+  } else {
+    console.log("can't update version of package");
+    throw new Error("can't update version of package");
+  }
 }
 
 parsedPackagesJsonData.forEach(async (data, i) => {
   const { version, name } = data;
   const pathToPck = paths[i];
   try {
-    const package = await fetchPackageJson(name, { version });
+    // await fetchPackageJson(name, { version });
+    startReleaseCandidate(data, pathToPck);
   } catch (err) {
     if (err instanceof PackageNotFoundError) {
-      // console.log("maybe need to publish the package", name);
-      // console.log("PackageNotFoundError", name, version, err);
-      await startRelease(name, version, pathToPck);
+      console.log("need to publish the package", name);
     } else if (err instanceof VersionNotFoundError) {
-      await startRelease(name, version, pathToPck);
+      startReleaseCandidate(data, pathToPck);
     } else {
       console.log("Unhandled error", name, version, err);
     }
   }
+});
+
+process.on("uncaughtException", (err) => {
+  console.error(
+    `${new Date().toUTCString()} uncaught exception: ${err.message}`
+  );
+
+  console.error(err);
+  process.exit(1);
 });
