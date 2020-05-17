@@ -1,0 +1,19 @@
+name: easymoney publish
+
+on:
+  push:
+  pull_request:
+    # branches:
+    #   - master
+    paths:
+      - "packages/*/package.json"
+      - "packages/*/*/package.json"
+
+jobs:
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - id: step1
+        run: echo "::set-output name=test::hello"
+      - id: step2
+        run: echo "::set-output name=test::world"

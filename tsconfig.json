@@ -16,7 +16,9 @@
     "baseUrl": ".",
     "composite": true,
     "paths": {
-      "@easymoney/*": ["packages/*/src"]
+      "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/*": [
+        "packages/*/src"
+      ]
     }
   },
   "exclude": [
@@ -28,25 +30,5 @@
     "**/*.spec*"
   ],
   "files": [],
-  "references": [
-    { "path": "packages/bignumber.js" },
-    {
-      "path": "packages/core"
-    },
-    {
-      "path": "packages/money"
-    },
-    {
-      "path": "packages/currencies"
-    },
-    {
-      "path": "packages/bigint-money"
-    },
-    {
-      "path": "packages/formatter"
-    },
-    {
-      "path": "packages/crypto-formatter"
-    }
-  ]
+  "references": [{ "path": "packages/packageone" }]
 }

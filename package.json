@@ -1,7 +1,9 @@
 {
-  "name": "sadaqwejqwejqwekqwejrandomnamesorrynpmforthisname",
+  "name": "test",
   "version": "0.0.1",
-  "scripts": {},
+  "scripts": {
+    "postinstall": "lerna bootstrap"
+  },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -41,11 +43,13 @@
     "dependency-cruiser": "^8.1.1",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
+    "execa": "^4.0.1",
     "fast-check": "^1.24.1",
     "husky": "^3.1.0",
     "jest": "^25.3.0",
     "lerna": "^3.20.2",
     "lint-staged": "^9.5.0",
+    "package-json": "^6.5.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.3.3",
