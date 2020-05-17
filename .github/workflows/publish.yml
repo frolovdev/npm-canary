@@ -28,6 +28,11 @@ jobs:
         run: node tools/ci/publishScript.js
       - name: prettier
         run: yarn prettier
+      - name: publish release candidate
+        run: yarn publish-flow
+        env:
+          NPM_TOKEN: ${{ secrets.npm_token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit changes
         run: |
           git add .
@@ -39,8 +44,3 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: publish release candidate
-        run: yarn publish-flow
-        env:
-          NPM_TOKEN: ${{ secrets.npm_token }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
