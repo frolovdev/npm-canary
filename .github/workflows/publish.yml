@@ -23,7 +23,7 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: publish packages
+      - name: publish release candidates packages
         run: node tools/ci/publishScript.js
       - name: check
         run: cat packages/packageone/package.json
@@ -33,5 +33,10 @@ jobs:
         run: |
           git add .
           git status
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git commit -m "ci: publish rc versions"
-          git push origin master
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
