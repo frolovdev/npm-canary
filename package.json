@@ -6,7 +6,7 @@
     "somepublish": "node tools/ci/publishScript.js",
     "postinstall": "lerna bootstrap",
     "build": "lerna run build",
-    "kek": "lerna publish from-package",
+    "kek": "lerna publish from-package --yes",
     "publish-flow": "lerna run prod && lerna publish"
   },
   "publishConfig": {
