@@ -2,6 +2,7 @@
   "name": "test",
   "version": "0.0.1",
   "scripts": {
+    "somepublish": "node tools/ci/publishScript.js",
     "postinstall": "lerna bootstrap"
   },
   "publishConfig": {
