@@ -64,8 +64,9 @@ parsedPackagesJsonData.forEach(async (data, i) => {
     const package = await fetchPackageJson(name, { version });
   } catch (err) {
     if (err instanceof PackageNotFoundError) {
-      console.log("maybe need to publish the package", name);
-      console.log("PackageNotFoundError", name, version, err);
+      // console.log("maybe need to publish the package", name);
+      // console.log("PackageNotFoundError", name, version, err);
+      await startRelease(name, version, pathToPck);
     } else if (err instanceof VersionNotFoundError) {
       await startRelease(name, version, pathToPck);
     } else {

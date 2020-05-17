@@ -27,3 +27,7 @@ jobs:
         run: node tools/ci/publishScript.js
         env:
           PRINT_ERRORS: true
+      - name: check
+        run: cat packages/packageone/package.json
+        env:
+          PRINT_ERRORS: true
