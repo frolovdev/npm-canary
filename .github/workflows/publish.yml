@@ -29,6 +29,8 @@ jobs:
         run: cat packages/packageone/package.json
         env:
           PRINT_ERRORS: true
+      - name: prettier
+        run: yarn prettier
       - name: Commit changes
         run: |
           git add .

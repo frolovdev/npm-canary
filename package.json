@@ -2,6 +2,7 @@
   "name": "test",
   "version": "0.0.1",
   "scripts": {
+    "prettier": "prettier --write \"./packages/**/*.{js,jsx,ts,tsx}\"",
     "somepublish": "node tools/ci/publishScript.js",
     "postinstall": "lerna bootstrap"
   },
