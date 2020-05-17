@@ -33,3 +33,5 @@ jobs:
         run: |
           git add .
           git status
+          git commit -m "ci: publish rc versions"
+          git push origin master
