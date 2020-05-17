@@ -1,15 +1,16 @@
-name: easymoney publish
+name: easymoney publish rc
 
 on:
-  [push, pull_request]
-  # branches:
-  #   - master
-  # paths:
-  #   - "packages/*/package.json"
-  #   - "packages/*/*/package.json"
+  push:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "packages/*/package.json"
+      - "packages/*/*/package.json"
 
 jobs:
-  publish-npm:
+  publish-rc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -25,10 +26,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: publish release candidates packages
         run: node tools/ci/publishScript.js
-      - name: check
-        run: cat packages/packageone/package.json
-        env:
-          PRINT_ERRORS: true
       - name: prettier
         run: yarn prettier
       - name: Commit changes
@@ -38,7 +35,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "ci: publish rc versions"
-      - name: Push changes
+      - name: Push changes to repository
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: publish release candidate
+        run: npm publish

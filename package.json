@@ -4,7 +4,10 @@
   "scripts": {
     "prettier": "prettier --write \"./packages/**/*.{js,jsx,ts,tsx}\"",
     "somepublish": "node tools/ci/publishScript.js",
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap",
+    "build": "lerna run build",
+    "kek": "lerna publish from-package",
+    "publish-flow": "lerna run prod && lerna publish"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -57,6 +60,7 @@
     "jest": "^25.3.0",
     "lerna": "^3.20.2",
     "lint-staged": "^9.5.0",
+    "npm-run-all": "^4.1.5",
     "package-json": "^6.5.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.2",
