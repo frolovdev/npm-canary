@@ -4,41 +4,15 @@ const {
   VersionNotFoundError,
   PackageNotFoundError
 } = require("package-json");
-
+const { getPackages, getPackageJsonDataFromPackages } = require("./packages");
 const path = require("path");
 const { updateRc } = require("./version");
 
 const directoryPath = path.join(__dirname, "../..", "packages");
 
-function getPackages(dir) {
-  const files = fs.readdirSync(dir);
-
-  const paths = [];
-  const packages = [];
-  files
-    .filter(file => fs.statSync(`${dir}/${file}`).isDirectory())
-    .forEach(file => {
-      const localDir = `${dir}/${file}`;
-
-      const package = fs.readdirSync(localDir);
-
-      paths.push(localDir);
-      packages.push(package);
-    });
-
-  return { packages, paths };
-}
-
 const { packages, paths } = getPackages(directoryPath);
 
-const regEXP = /package.json/;
-const packageJsons = packages.flatMap(x => x).filter(file => regEXP.test(file));
-
-const packagesJsonData = packageJsons.map((file, i) =>
-  fs.readFileSync(`${paths[i]}/${file}`, { encoding: "utf8" })
-);
-
-const parsedPackagesJsonData = packagesJsonData.map(data => JSON.parse(data));
+const parsedPackagesJsonData = getPackageJsonDataFromPackages(packages, paths);
 
 function startReleaseCandidate(data, pathToPck) {
   const newVersion = updateRc(data.version);

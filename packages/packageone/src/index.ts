@@ -4,10 +4,11 @@ function getRandomInt(min: number, max: number) {
   return String(Math.floor(Math.random() * (max - min)) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-const func = (a: number, b: number) => {
-  const sum = a + b;
+const funcMult = (a: number, b: number) => {
+  const sum = a * b;
   console.log(getRandomInt(0, 1000));
   console.log("Sum is", sum);
+  return sum;
 };
 
-export { func };
+export { funcMult };

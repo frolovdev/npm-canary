@@ -5,9 +5,11 @@ function getRandomInt(min: number, max: number) {
 }
 
 const func = (a: number, b: number) => {
-  const sum = a + b;
+  const sum = a - b;
   console.log(getRandomInt(0, 1000));
   console.log("Sum is", sum);
+
+  return sum;
 };
 
 export { func };

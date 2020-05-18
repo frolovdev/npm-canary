@@ -30,5 +30,10 @@
     "**/*.spec*"
   ],
   "files": [],
-  "references": [{ "path": "packages/packageone" }]
+  "references": [
+    { "path": "packages/packgetwo" },
+    {
+      "path": "packages/packgetwo"
+    }
+  ]
 }
