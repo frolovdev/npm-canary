@@ -5,7 +5,7 @@ COPY . ./app
 
 WORKDIR /app
 
-RUN yarn install --frozen-lockfile
+RUN yarn
 
 RUN node ./tools/ci/integration-tests.js
 
