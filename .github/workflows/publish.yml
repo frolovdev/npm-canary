@@ -44,7 +44,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Docker build integration tests
+      - name: Docker integration tests
         run: docker build -f Dockerfile -t integration-tests .
-      - name: Docker run integration tests
-        run: docker run -d --rm integration-tests
