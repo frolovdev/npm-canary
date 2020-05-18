@@ -24,9 +24,9 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: publish release candidates packages
+      - name: Update versions to release candidates in packages
         run: node tools/ci/publishScript.js
-      - name: prettier
+      - name: Prettier
         run: yarn prettier
       - name: Commit changes
         run: |
@@ -35,7 +35,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "ci: publish rc versions"
-      - name: publish release candidate
+      - name: Publish release candidates
         run: yarn publish-flow
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
@@ -44,3 +44,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Docker build integration tests
+        run: docker build -f Dockerfile -t integration-tests .
+      - name: Docker run integration tests
+        run: docker run -d --rm integration-tests
