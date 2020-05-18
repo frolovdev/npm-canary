@@ -25,7 +25,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Update versions to release candidates in packages
-        run: node tools/ci/publishScript.js
+        run: node tools/ci/publish-script.js
       - name: Prettier
         run: yarn prettier
       - name: Commit changes
