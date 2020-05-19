@@ -1,6 +1,6 @@
 {
   "name": "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "author": "Whispers12",
   "sideEffects": false,
   "main": "dist/index.cjs.js",

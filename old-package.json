@@ -15,9 +15,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "private": true,
   "license": "MIT",
   "alias": {
@@ -82,8 +80,8 @@
     "rollup-plugin-visualizer": "^4.0.3",
     "ts-jest": "^25.4.0",
     "typescript": "^3.8.3",
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "0.0.1-rc.0",
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo": "0.0.2-rc.0"
+    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "0.0.1",
+    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo": "0.0.2"
   },
   "engines": {
     "node": ">=10.8.x"
