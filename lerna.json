@@ -4,9 +4,13 @@
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
+    "publish": {
+      "graphType": "all"
+    },
     "version": {
       "allowBranch": "master",
       "message": "chore: publish"
     }
-  }
+  },
+  "ignoreChanges": ["**/__fixtures__/**", "**/__tests__/**", "**/*.md"]
 }

@@ -1,11 +1,10 @@
 function checkIsRc(version) {
   const isRc = /[0-9]-rc.\d+/.test(version);
 
-  debugger;
   return isRc;
 }
 
-function updateRc(version) {
+function updateVersionToRc(version) {
   if (checkIsRc(version)) {
     const prefix = "-rc.";
     const resultStringIndex = version.indexOf(prefix);
@@ -24,6 +23,54 @@ function updateRc(version) {
   }
 }
 
-module.exports = {
-  updateRc,
-};
+const depsFields = ["dependencies", "devDependencies", "peerDependencies"];
+
+function updatePackagesVersions(packageArrayExmplToUpdate) {
+  const updatedPackagesWithUpdatedVersion = packageArrayExmplToUpdate.map(
+    mypackage => ({
+      ...mypackage,
+      version: updateVersionToRc(mypackage.version)
+    })
+  );
+
+  const versionsMap = updatedPackagesWithUpdatedVersion.reduce((acc, val) => {
+    acc[val.name] = val.version;
+    return acc;
+  }, {});
+
+  const updatedPackagesWithUpdatedDeps = updatedPackagesWithUpdatedVersion.map(
+    mypackage => {
+      const mapOfDeps = depsFields.reduce((acc, val) => {
+        const depType = val;
+
+        const updatedDeps =
+          mypackage[depType] && updateDeps(mypackage[depType], versionsMap);
+
+        if (updatedDeps) mypackage[depType] = updatedDeps;
+
+        return acc;
+      }, {});
+
+      const result = Object.keys(mapOfDeps).reduce((acc, val) => {
+        acc[val] = mapOfDeps[val];
+        return acc;
+      }, mypackage);
+
+      return result;
+    }
+  );
+
+  return updatedPackagesWithUpdatedDeps;
+}
+
+function updateDeps(packageDeps, depsToUpdate) {
+  return Object.keys(depsToUpdate).reduce((acc, val) => {
+    if (acc[val]) {
+      acc[val] = depsToUpdate[val];
+    }
+
+    return acc;
+  }, packageDeps);
+}
+
+module.exports = { updateDeps, updatePackagesVersions, updateVersionToRc };

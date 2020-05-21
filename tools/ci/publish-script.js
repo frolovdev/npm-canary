@@ -4,9 +4,11 @@ const {
   VersionNotFoundError,
   PackageNotFoundError
 } = require("package-json");
+const cp = require("child_process");
 const { getPackages, getPackageJsonDataFromPackages } = require("./packages");
 const path = require("path");
-const { updateRc } = require("./version");
+const Graph = require("./graph");
+const { updatePackagesVersions } = require("./version");
 
 const directoryPath = path.join(__dirname, "../..", "packages");
 
@@ -14,39 +16,81 @@ const { packages, paths } = getPackages(directoryPath);
 
 const parsedPackagesJsonData = getPackageJsonDataFromPackages(packages, paths);
 
-function startReleaseCandidate(data, pathToPck) {
-  const newVersion = updateRc(data.version);
-
-  if (newVersion) {
-    const newPackageJson = { ...data, version: newVersion };
-
-    fs.writeFileSync(
-      `${pathToPck}/package.json`,
-      JSON.stringify(newPackageJson, null, 2),
-      "utf8"
-    );
-  } else {
-    console.log("can't update version of package");
-    throw new Error("can't update version of package");
-  }
+function writeDataToDisk(updatedPackagesData, packagesToUpdatePaths) {
+  updatedPackagesData.map((updatedPackageData, i) => {
+    try {
+      fs.writeFileSync(
+        `${packagesToUpdatePaths[i]}/package.json`,
+        JSON.stringify(updatedPackageData, null, 2),
+        "utf8"
+      );
+    } catch (err) {
+      console.log("can't update version of package");
+      console.log(err);
+      throw new Error("can't update version of package");
+    }
+  });
 }
 
-parsedPackagesJsonData.forEach(async (data, i) => {
-  const { version, name } = data;
+const packagesToUpdate = [];
+
+parsedPackagesJsonData.forEach(async (packageData, i) => {
+  const { version, name } = packageData;
   const pathToPck = paths[i];
   try {
     // await fetchPackageJson(name, { version });
-    startReleaseCandidate(data, pathToPck);
+    packagesToUpdate.push({ packageData, pathToPck });
   } catch (err) {
     if (err instanceof PackageNotFoundError) {
       console.log("need to publish the package", name);
+      packagesToUpdate.push({ packageData, pathToPck });
     } else if (err instanceof VersionNotFoundError) {
-      startReleaseCandidate(data, pathToPck);
+      packagesToUpdate.push({ packageData, pathToPck });
     } else {
       console.log("Unhandled error", name, version, err);
+      process.exit(1);
     }
   }
 });
+
+function publishNpm(cwd) {
+  console.log("1231");
+
+  try {
+    cp.execSync("npm publish", {
+      cwd: cwd,
+      env: process.env
+    });
+  } catch (err) {
+    console.log("publishNpm err", err.stdout.toString("utf8"));
+    process.exit(1);
+  }
+}
+
+try {
+  const packagesToUpdateData = packagesToUpdate.map(
+    ({ packageData }) => packageData
+  );
+
+  const packagesToUpdatePaths = packagesToUpdate.map(
+    ({ pathToPck }) => pathToPck
+  );
+
+  const updatedPackagesData = updatePackagesVersions(packagesToUpdateData);
+
+  writeDataToDisk(updatedPackagesData, packagesToUpdatePaths);
+
+  const priorityQueue = Graph.createGraphFromPackages(
+    updatedPackagesData
+  ).topologicalSort();
+
+  priorityQueue.forEach(packageIndex => {
+    publishNpm(packagesToUpdatePaths[packageIndex]);
+  });
+} catch (error) {
+  console.log("updatePackagesVersions", "problem", error);
+  process.exit(1);
+}
 
 process.on("uncaughtException", err => {
   console.error(

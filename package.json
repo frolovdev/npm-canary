@@ -7,9 +7,13 @@
     "postinstall": "lerna bootstrap",
     "build": "lerna run build",
     "publish-flow": "lerna run prod && lerna publish from-package --yes",
-    "test-prod": "jest --bail",
+    "test": "jest --config jest.config.js --bail",
+    "test-tools": "jest --config jest.tools.js --bail",
+    "integration-test": "jest --config jest.integration.js --bail",
     "kek": "lerna list --json",
     "start": "tsc --build --watch",
+    "lerna-version": "lerna version --yes --no-changelog --no-push --no-git-tag-version",
+    "lerna-version-prerelease": "lerna version prerelease --preid rc --yes --no-changelog --no-push --no-git-tag-version",
     "clean": "rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}"
   },
   "publishConfig": {
@@ -81,9 +85,7 @@
     "rollup-plugin-typescript2": "^0.27.0",
     "rollup-plugin-visualizer": "^4.0.3",
     "ts-jest": "^25.4.0",
-    "typescript": "^3.8.3",
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "0.0.1-rc.0",
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo": "0.0.2-rc.0"
+    "typescript": "^3.8.3"
   },
   "engines": {
     "node": ">=10.8.x"
