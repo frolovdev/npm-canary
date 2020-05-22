@@ -43,10 +43,10 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Push changes to repository
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Push changes to repository
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker integration tests
         run: docker build -f Dockerfile -t integration-tests .
       - name: Publish prod versions
