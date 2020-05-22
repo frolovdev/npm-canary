@@ -1,6 +1,6 @@
 {
   "name": "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone",
-  "version": "2.0.2-rc.17",
+  "version": "7.0.0",
   "author": "Whispers12",
   "sideEffects": false,
   "main": "dist/index.cjs.js",
@@ -26,7 +26,8 @@
   "license": "MIT",
   "description": "Best way to do money in js",
   "scripts": {
-    "prod": "yarn build",
+    "prepublishOnly": "yarn prod",
+    "prod": "yarn clean && yarn build",
     "publish-script": "npm publish",
     "postpublish": "yarn clean",
     "start": "tsc -w --preserveWatchOutput",
