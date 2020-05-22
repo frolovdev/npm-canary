@@ -5,9 +5,9 @@ on:
   pull_request:
     branches:
       - master
-    paths:
-      - "packages/*/package.json"
-      - "packages/*/*/package.json"
+    # paths:
+    #   - "packages/*/package.json"
+    #   - "packages/*/*/package.json"
 
 jobs:
   publish-rc:
