@@ -24,6 +24,8 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run test tools
+        run: yarn test-tools
       - name: Build dists
         run: yarn build-prod
       - name: Run tests
@@ -43,12 +45,12 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # - name: Push changes to repository
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push changes to repository
+        uses: actions-go/push@master
+        with:
+          commit-message: "[Auto] update pre-puilt dist packages"
+          remote: origin
       - name: Docker integration tests
         run: docker build -f Dockerfile -t integration-tests .
       - name: Publish prod versions
-        run: |
-          ls
+        run: ls

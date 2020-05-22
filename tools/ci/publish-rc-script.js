@@ -1,4 +1,3 @@
-const fs = require("fs");
 const {
   default: fetchPackageJson,
   VersionNotFoundError,
@@ -9,28 +8,13 @@ const { getPackages, getPackageJsonDataFromPackages } = require("./packages");
 const path = require("path");
 const Graph = require("./graph");
 const { updatePackagesVersions } = require("./version");
+const { writeDataToDisk } = require("./updatePackageData");
 
 const directoryPath = path.join(__dirname, "../..", "packages");
 
 const { packages, paths } = getPackages(directoryPath);
 
 const parsedPackagesJsonData = getPackageJsonDataFromPackages(packages, paths);
-
-function writeDataToDisk(updatedPackagesData, packagesToUpdatePaths) {
-  updatedPackagesData.map((updatedPackageData, i) => {
-    try {
-      fs.writeFileSync(
-        `${packagesToUpdatePaths[i]}/package.json`,
-        JSON.stringify(updatedPackageData, null, 2),
-        "utf8"
-      );
-    } catch (err) {
-      console.log("can't update version of package");
-      console.log(err);
-      throw new Error("can't update version of package");
-    }
-  });
-}
 
 const packagesToUpdate = [];
 
