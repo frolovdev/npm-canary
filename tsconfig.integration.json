@@ -14,11 +14,6 @@
     "importHelpers": true,
     "allowJs": true,
     "composite": true
-    // "rootDir": "./integration",
-    // "baseUrl": "./integration",
-    // "paths": {
-    //   "*": ["integration/*"]
-    // }
   },
   "exclude": [
     "node_modules",
