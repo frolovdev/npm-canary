@@ -38,8 +38,8 @@ parsedPackagesJsonData.forEach(async (packageData, i) => {
   const { version, name } = packageData;
   const pathToPck = paths[i];
   try {
-    // await fetchPackageJson(name, { version });
-    packagesToUpdate.push({ packageData, pathToPck });
+    await fetchPackageJson(name, { version });
+    // packagesToUpdate.push({ packageData, pathToPck });
   } catch (err) {
     if (err instanceof PackageNotFoundError) {
       console.log("need to publish the package", name);
@@ -54,8 +54,6 @@ parsedPackagesJsonData.forEach(async (packageData, i) => {
 });
 
 function publishNpm(cwd) {
-  console.log("1231");
-
   try {
     cp.execSync("npm publish", {
       cwd: cwd,

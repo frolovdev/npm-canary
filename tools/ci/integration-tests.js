@@ -32,14 +32,14 @@ try {
 
   const root = path.join(__dirname, "../..");
 
-  // save old package json
-  fs.writeFileSync(
-    path.join(root, "old-package.json"),
-    rootPackageJson,
-    "utf8"
-  );
+  // // save an old package json
+  // fs.writeFileSync(
+  //   path.join(root, "old-package.json"),
+  //   rootPackageJson,
+  //   "utf8"
+  // );
 
-  console.log("successfullt save old package.json");
+  // console.log("successfullt save old package.json");
 
   // rewrite new one
   fs.writeFileSync(

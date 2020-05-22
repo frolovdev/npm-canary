@@ -1,42 +1,17 @@
 {
-  "name": "test",
+  "name": "integration-tests",
   "version": "0.0.1",
-  "scripts": {
-    "prettier": "prettier --write \"./packages/**/*.{js,jsx,ts,tsx}\"",
-    "somepublish": "node tools/ci/publishScript.js",
-    "build": "lerna run build",
-    "publish-flow": "lerna run prod && lerna publish from-package --yes",
-    "test-prod": "jest --bail",
-    "kek": "lerna list --json",
-    "start": "tsc --build --watch",
-    "clean": "rimraf packages/*/{tsconfig.tsbuildinfo,lib,dist}"
-  },
+  "scripts": {},
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "private": true,
   "license": "MIT",
-  "alias": {
-    "money": "./packages/money/src/index.ts",
-    "core": "./packages/core/src/index.ts",
-    "currencies": "./packages/currencies/src/index.ts",
-    "formatter": "./packages/formatter/src/index.ts",
-    "crypto-formatter": "./packages/formatter/src/index.ts",
-    "bigint-money": "./packages/bigint-money/src/index.ts",
-    "bignumber.js": "./packages/bignumber.js/src/index.ts"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "devDependencies": {
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "0.0.1-rc.0",
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo": "0.0.2-rc.0"
+    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "latest",
+    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo": "latest",
+    "@easymoney/core": "latest",
+    "@easymoney/money": "latest"
   },
   "engines": {
     "node": ">=10.8.x"

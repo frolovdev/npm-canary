@@ -24,8 +24,13 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Update versions to release candidates in packages
-        run: node tools/ci/publish-script.js
+      - name: Build dists
+        run: yarn build-prod
+      - name: Run tests
+        run: yarn test
+      - name: Update versions to release candidates in packages and publish
+        run: |
+          node tools/ci/publish-script.js
       - name: Prettier
         run: yarn prettier
       - name: Commit changes
@@ -35,8 +40,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "ci: publish rc versions"
-      - name: Publish release candidates
-        run: yarn publish-flow
         env:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,3 +49,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker integration tests
         run: docker build -f Dockerfile -t integration-tests .
+      - name: Publish prod versions
+        run: |
+          ls

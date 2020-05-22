@@ -1,6 +1,6 @@
 {
   "name": "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone",
-  "version": "8.0.0",
+  "version": "8.0.1",
   "author": "Whispers12",
   "sideEffects": false,
   "main": "dist/index.cjs.js",
@@ -27,7 +27,7 @@
   "description": "Best way to do money in js",
   "scripts": {
     "prepublishOnly": "yarn prod",
-    "prod": "yarn clean && yarn build",
+    "build-prod": "yarn clean && yarn build",
     "publish-script": "npm publish",
     "postpublish": "yarn clean",
     "start": "tsc -w --preserveWatchOutput",
@@ -50,7 +50,6 @@
   "files": [
     "/README.md",
     "/package.json",
-    "/src",
     "/dist"
   ],
   "keywords": [

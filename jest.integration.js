@@ -1,18 +1,18 @@
 module.exports = {
-  // roots: ["<rootDir>/src"],
+  rootDir: "./integration",
+  // roots: ["<rootDir>", "<rootDir>/integration"],
+  modulePaths: ["<rootDir>"],
+  moduleDirectories: ["node_modules", "<rootDir>/node_modules"],
   transform: {
-    "^.+\\.jsx?$": "babel-jest",
     "^.+\\.ts$": "ts-jest"
   },
   preset: "ts-jest",
-  testMatch: [
-    `<rootDir>/integration/**/*.test.ts`,
-    `<rootDir>/integration/**/*.propbased-test.ts`
-  ],
+  testMatch: [`<rootDir>/**/*.test.ts`, `<rootDir>/**/*.propbased-test.ts`],
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  // moduleNameMapper: {
-  //   "^@someinterestingtestnamesorrynpmforthisasdsadasdasdasd\\/((?!config)[^\\/]+)":
-  //     "<rootDir>/../$1/src"
-  // },
+  globals: {
+    "ts-jest": {
+      tsConfig: "tsconfig.integration.json"
+    }
+  },
   verbose: true
 };

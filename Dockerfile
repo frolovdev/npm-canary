@@ -11,8 +11,8 @@ RUN yarn
 
 RUN node ./tools/ci/integration-tests.js
 
-RUN yarn
+RUN yarn --cwd integration --no-lockfile
 
-RUN yarn test-prod
+RUN yarn test-integration
 
 

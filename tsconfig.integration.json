@@ -9,18 +9,16 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "rootDir": ".",
     "removeComments": true,
     "noUnusedParameters": true,
     "importHelpers": true,
-    "baseUrl": ".",
     "allowJs": true,
-    "composite": true,
-    "paths": {
-      "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/*": [
-        "packages/*/src"
-      ]
-    }
+    "composite": true
+    // "rootDir": "./integration",
+    // "baseUrl": "./integration",
+    // "paths": {
+    //   "*": ["integration/*"]
+    // }
   },
   "exclude": [
     "node_modules",
@@ -29,12 +27,5 @@
     "__tests__",
     "**/*.test*",
     "**/*.spec*"
-  ],
-  "files": [],
-  "references": [
-    { "path": "packages/packageone" },
-    {
-      "path": "packages/packgetwo"
-    }
   ]
 }
