@@ -32,7 +32,7 @@ jobs:
         run: yarn test
       - name: Update versions to release candidates in packages and publish
         run: |
-          node tools/ci/publish-script.js
+          node tools/ci/publish-rc-script.js
       - name: Prettier
         run: yarn prettier
       - name: Commit changes
