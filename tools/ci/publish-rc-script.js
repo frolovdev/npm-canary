@@ -3,7 +3,7 @@ const {
   VersionNotFoundError,
   PackageNotFoundError
 } = require("package-json");
-const cp = require("child_process");
+const publishNpm = require("./publishNpm");
 const { getPackages, getPackageJsonDataFromPackages } = require("./packages");
 const path = require("path");
 const Graph = require("./graph");
@@ -16,63 +16,63 @@ const { packages, paths } = getPackages(directoryPath);
 
 const parsedPackagesJsonData = getPackageJsonDataFromPackages(packages, paths);
 
-const packagesToUpdate = [];
+async function prepareData(parsedPackagesJsonData) {
+  const packagesToUpdate = [];
 
-parsedPackagesJsonData.forEach(async (packageData, i) => {
-  const { version, name } = packageData;
-  const pathToPck = paths[i];
-  try {
-    await fetchPackageJson(name, { version });
-    // packagesToUpdate.push({ packageData, pathToPck });
-  } catch (err) {
-    if (err instanceof PackageNotFoundError) {
-      console.log("need to publish the package", name);
-      packagesToUpdate.push({ packageData, pathToPck });
-    } else if (err instanceof VersionNotFoundError) {
-      packagesToUpdate.push({ packageData, pathToPck });
-    } else {
-      console.log("Unhandled error", name, version, err);
-      process.exit(1);
+  for (let i = 0; i < parsedPackagesJsonData.length; i++) {
+    const packageData = parsedPackagesJsonData[i];
+
+    const { version, name } = packageData;
+
+    const pathToPck = paths[i];
+    try {
+      await fetchPackageJson(name, { version });
+    } catch (err) {
+      if (err instanceof PackageNotFoundError) {
+        console.log("need to publish the package", name);
+        packagesToUpdate.push({ packageData, pathToPck });
+      } else if (err instanceof VersionNotFoundError) {
+        console.log("version not found");
+        packagesToUpdate.push({ packageData, pathToPck });
+      } else {
+        console.log("Unhandled error", name, version, err);
+        process.exit(1);
+      }
     }
   }
-});
 
-function publishNpm(cwd) {
+  return packagesToUpdate;
+}
+
+(async () => {
+  const packagesToUpdate = await prepareData(parsedPackagesJsonData);
+
   try {
-    cp.execSync("npm publish", {
-      cwd: cwd,
-      env: process.env
+    const packagesToUpdateData = packagesToUpdate.map(
+      ({ packageData }) => packageData
+    );
+
+    const packagesToUpdatePaths = packagesToUpdate.map(
+      ({ pathToPck }) => pathToPck
+    );
+
+    const updatedPackagesData = updatePackagesVersions(packagesToUpdateData);
+
+    writeDataToDisk(updatedPackagesData, packagesToUpdatePaths);
+
+    const priorityQueue = Graph.createGraphFromPackages(
+      updatedPackagesData
+    ).topologicalSort();
+
+    priorityQueue.forEach(packageIndex => {
+      publishNpm(packagesToUpdatePaths[packageIndex]);
     });
-  } catch (err) {
-    console.log("publishNpm err", err.stdout.toString("utf8"));
+  } catch (error) {
+    console.log("updatePackagesVersions", "problem", error);
+
     process.exit(1);
   }
-}
-
-try {
-  const packagesToUpdateData = packagesToUpdate.map(
-    ({ packageData }) => packageData
-  );
-
-  const packagesToUpdatePaths = packagesToUpdate.map(
-    ({ pathToPck }) => pathToPck
-  );
-
-  const updatedPackagesData = updatePackagesVersions(packagesToUpdateData);
-
-  writeDataToDisk(updatedPackagesData, packagesToUpdatePaths);
-
-  const priorityQueue = Graph.createGraphFromPackages(
-    updatedPackagesData
-  ).topologicalSort();
-
-  priorityQueue.forEach(packageIndex => {
-    publishNpm(packagesToUpdatePaths[packageIndex]);
-  });
-} catch (error) {
-  console.log("updatePackagesVersions", "problem", error);
-  process.exit(1);
-}
+})();
 
 process.on("uncaughtException", err => {
   console.error(

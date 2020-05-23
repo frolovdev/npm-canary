@@ -4,7 +4,11 @@ const path = require("path");
 const { getPackages, getPackageJsonDataFromPackages } = require("./packages");
 
 try {
-  const rootPckJsonPath = path.join(__dirname, "../..", "package.json");
+  const rootPckJsonPath = path.join(
+    __dirname,
+    "../../integration",
+    "package.json"
+  );
   const packagesPath = path.join(__dirname, "../..", "packages");
 
   const rootPackageJson = fs.readFileSync(rootPckJsonPath, "utf8");
@@ -30,8 +34,6 @@ try {
     devDependencies: newDevDeps
   };
 
-  const root = path.join(__dirname, "../..");
-
   // // save an old package json
   // fs.writeFileSync(
   //   path.join(root, "old-package.json"),
@@ -43,7 +45,7 @@ try {
 
   // rewrite new one
   fs.writeFileSync(
-    path.join(root, "package.json"),
+    rootPckJsonPath,
     JSON.stringify(newRootPackageJson, null, 2),
     "utf8"
   );

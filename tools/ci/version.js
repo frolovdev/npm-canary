@@ -23,13 +23,27 @@ function updateVersionToRc(version) {
   }
 }
 
+function updateVersionFromRcToRelease(version) {
+  if (checkIsRc(version)) {
+    const prefix = "-rc.";
+    const resultStringIndex = version.indexOf(prefix);
+
+    return version.slice(0, resultStringIndex);
+  } else {
+    return version;
+  }
+}
+
 const depsFields = ["dependencies", "devDependencies", "peerDependencies"];
 
-function updatePackagesVersions(packageArrayExmplToUpdate) {
+function updatePackagesVersions(
+  packageArrayExmplToUpdate,
+  versionUpdater = updateVersionToRc
+) {
   const updatedPackagesWithUpdatedVersion = packageArrayExmplToUpdate.map(
     mypackage => ({
       ...mypackage,
-      version: updateVersionToRc(mypackage.version)
+      version: versionUpdater(mypackage.version)
     })
   );
 
@@ -66,11 +80,17 @@ function updatePackagesVersions(packageArrayExmplToUpdate) {
 function updateDeps(packageDeps, depsToUpdate) {
   return Object.keys(depsToUpdate).reduce((acc, val) => {
     if (acc[val]) {
-      acc[val] = depsToUpdate[val];
+      acc[val] = `^${depsToUpdate[val]}`;
     }
 
     return acc;
   }, packageDeps);
 }
 
-module.exports = { updateDeps, updatePackagesVersions, updateVersionToRc };
+module.exports = {
+  checkIsRc,
+  updateDeps,
+  updatePackagesVersions,
+  updateVersionToRc,
+  updateVersionFromRcToRelease
+};

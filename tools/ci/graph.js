@@ -68,8 +68,6 @@ class Graph {
       }
     }
 
-    debugger;
-
     return new Graph(adjacencyList, packages);
   }
 }

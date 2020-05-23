@@ -1,6 +1,6 @@
 {
   "name": "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "author": "Whispers12",
   "sideEffects": false,
   "main": "dist/index.cjs.js",
@@ -26,8 +26,8 @@
   "license": "MIT",
   "description": "Best way to do money in js",
   "scripts": {
-    "prepublishOnly": "yarn prod",
-    "prod": "yarn clean && yarn build",
+    "build-prod": "yarn clean && yarn build",
+    "publish-script": "npm publish",
     "postpublish": "yarn clean",
     "start": "tsc -w --preserveWatchOutput",
     "build": "../../node_modules/.bin/rollup -c",
@@ -44,7 +44,7 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "3.0.0"
+    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "^9.0.1"
   },
   "files": [
     "/README.md",

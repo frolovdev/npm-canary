@@ -8,10 +8,10 @@
   "private": true,
   "license": "MIT",
   "devDependencies": {
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "latest",
-    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo": "latest",
+    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packageone": "8.0.1",
     "@easymoney/core": "latest",
-    "@easymoney/money": "latest"
+    "@easymoney/money": "latest",
+    "@someinterestingtestnamesorrynpmforthisasdsadasdasdasd/packgetwo": "3.0.0"
   },
   "engines": {
     "node": ">=10.8.x"
