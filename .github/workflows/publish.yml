@@ -46,10 +46,9 @@ jobs:
           NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Push changes to repository
-        uses: actions-go/push@master
+        uses: ad-m/github-push-action@master
         with:
-          commit-message: "[Auto] update pre-puilt dist packages"
-          remote: origin
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Docker integration tests
         run: docker build -f Dockerfile -t integration-tests .
       - name: Publish prod versions
